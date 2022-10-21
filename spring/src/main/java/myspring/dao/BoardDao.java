@@ -11,7 +11,7 @@ import myspring.model.Board;
 @Repository
 public class BoardDao {
 
-	@Autowired
+	@Autowired 
 	private SqlSession session;
 	
 	public int insert(Board board) {
