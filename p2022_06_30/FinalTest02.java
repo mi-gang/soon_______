@@ -5,6 +5,8 @@ class FinalMethod {								// 부모 클래스
 	// 필드
 	String str = "Java ";
 
+	
+	
 	// 메소드
 	// public void setStr(String s) {
 	public final void setStr(String s) {		// final 붙이면 서브 클래스에서 오버라이딩이 불가.
