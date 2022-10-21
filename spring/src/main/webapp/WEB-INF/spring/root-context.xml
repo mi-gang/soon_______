@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+	
+	<!-- <context:property-placeholder location="classpath:jdbc.properties" /> -->
+	
+	<!-- dataSource -->
+	<!-- <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${jdbc.driverClassName}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+	</bean> -->
+	
+	<!-- Data Source --><!-- 오라클 연결 -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="spring" />
+		<property name="password" value="spring123" />
+	</bean>
+	
+	<!-- 스프링 jdbc 즉 스프링으로 oracle 디비 연결 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+				<!-- SqlSessionFactoryBean 객체 생성 -->
+		<property name="dataSource" ref="dataSource" />		<!-- 위에 작성된 db 데이터 불러옴 -->
+															<!-- DB 연동 코드 -->
+		<property name="configLocation" value="classpath:configuration.xml" />	<!-- mybatis 환경설정 파일 불러옴 -->
+									      <!-- classpath: -> resources 내 파일 불러오는 경로 -->
+		<property name="mapperLocations" value="classpath:sql/*.xml" />	<!-- mapper파일(board.xml)위치 불러옴 -->
+	</bean>
+	
+	<!-- dao 내에서 sqlsessiontemplate 구해와 sql문 실행하기 위해서 생성해놔야 함 -->
+	<!-- 위 내용이 다 포함되어 있기 때문에 이 객체가 dao 내 삽입되었을 때 mapper 파일의 id로 값을 불러오는 것도 가능해짐 -->
+	<bean id="session" class="org.mybatis.spring.SqlSessionTemplate">	<!-- SqlSessionTemplate : sqlsession(sql문 메소드 내장되어있는 인터페이스)를 상속받는 구현클래스 -->
+		<constructor-arg index="0" ref="sqlSessionFactory" />	<!-- 생성자의 매개변수로 값 전달, 위에서 생성된 내용 들어감 -->
+		<!-- 이 코드가 있어야 DAO 클래스에서 sqlsession을 불러올 수 있음 -->
+	</bean>	
+	
+</beans>
