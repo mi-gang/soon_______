@@ -12,7 +12,7 @@ import myspring.model.Board;
 public class BoardDao {
 
 	@Autowired
-	private SqlSession session; 
+	private SqlSession session;  
 	
 	public int insert(Board board) {
 		return session.insert("insert", board);		// (mapper내 id값, 전달할 값)
