@@ -9,6 +9,8 @@ final class FinalClass {						// 부모 클래스
 		System.out.println(str);
 	}
 }
+ 
+
 
 class FinalEx extends FinalClass {				// 자식 클래스
 	int a = 10;
